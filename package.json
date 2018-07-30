@@ -1,0 +1,19 @@
+{
+  "name": "door-sensor-trigger",
+  "version": "0.0.0",
+  "description": "DoorSensorTrigger",
+  "main": "app.js",
+  "author": {
+    "name": "miguel"
+  },
+  "dependencies": {
+    "amqplib": "^0.5.2",
+    "asyncawait": "^1.0.6",
+    "google-cloud": "^0.57.0",
+    "inotify": "^1.4.2",
+    "mz": "^2.7.0",
+    "moment": "^2.22.2",
+    "youtube-video-api": "^0.3.7",
+    "nodemailer": "^4.6.7"
+  }
+}
