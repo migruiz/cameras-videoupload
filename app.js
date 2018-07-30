@@ -1,5 +1,4 @@
 'use strict';
-
 var config = require('./config');
 var gcloud = require('google-cloud');
 
@@ -7,6 +6,29 @@ var datastore = gcloud.datastore({
     projectId: config.projectId,
     keyFilename: config.keyFilename
 });
+
+
+var timestamp=434234423;
+const taskKey = datastore.key(['DoorOpenEvent',timestamp]);
+const entity = {
+    key: taskKey,
+    data: {
+        timestamp: timestamp,
+        date: new Date(1000 * timestamp),
+        extractedVideo:false,
+        emailSent:false
+    },
+};
+
+datastore.insert(entity).then(() => {
+    console.log(" NEW EVENT '%s'", timestamp);
+    onSuceeded();
+});
+
+
+
+
+return;
 
 var videoFilesMonitor = require('./videoFilesMonitor.js');
 videoFilesMonitor.startMonitoring(datastore);
