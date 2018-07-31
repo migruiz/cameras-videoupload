@@ -6,7 +6,7 @@ services:
 
 env:
   global:
-    - PI_APP=cameras-youtube
+    - PI_APP=cameras-videoupload
 
 
 script:

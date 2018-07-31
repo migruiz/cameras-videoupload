@@ -6,7 +6,7 @@ var async = require('asyncawait/async');
 
 var moment = require('moment');
 var doorOpenVideoExtractor = require('./doorOpenVideoExtractor.js');
-var videosFolder = process.env.VIDEOSPATH;
+var videosFolder = /videos/;
 
 exports.startMonitoring = function (datastore) {
     inotify.addWatch({
