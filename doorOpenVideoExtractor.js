@@ -5,8 +5,8 @@ var youtubeAPI = require('./youtubeUploader.js');
 var emailSender = require('./emailSender.js');
 exports.extractVideos = function (ignoreVideosAfterTimestamp, datastore) {
 
-    const ffmpegFolderLocation = '/home/pi/ffmpeg-git-20180610-64bit-static/';
-    const cameraVideosFolderLocation = '/home/pi/entrancecam/';
+    const ffmpegFolderLocation = process.env.FFMPEGPATH;
+    const cameraVideosFolderLocation = process.env.VIDEOSPATH;
     const videoLenght = 30;
     const query = datastore
         .createQuery('DoorOpenEvent')

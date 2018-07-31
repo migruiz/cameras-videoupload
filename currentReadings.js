@@ -4,7 +4,7 @@
 
     this.reportSensorReading = function (datastore, reading, onSuceeded) {
         var msg = JSON.parse(reading);
-        if (!msg.data.localeCompare("233945") == 0) {
+        if (!msg.data.localeCompare(process.env.DOORSENSORID) == 0) {
             onSuceeded();
             return;
         }

@@ -5,8 +5,8 @@ exports.sendMail = function (subject,body) {
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'entrancecamera123@gmail.com',
-            pass: 'hackol37'
+            user: process.env.EMAIL,
+            pass: process.env.EMAILPWD
         }
     });
 
