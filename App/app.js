@@ -3,7 +3,7 @@ var gcloud = require('google-cloud');
 
 const fs = require('fs');
 let dataStoreSecretsJson = fs.readFileSync(process.env.GOOGLESTORAGEKEY);
-let dataStoreSecrets = JSON.parse(clientSecretsjson); 
+let dataStoreSecrets = JSON.parse(dataStoreSecretsJson); 
 
 var datastore = gcloud.datastore({
     projectId: dataStoreSecrets.project_id,
