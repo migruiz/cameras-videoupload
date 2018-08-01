@@ -2,8 +2,8 @@
 var gcloud = require('google-cloud');
 
 var datastore = gcloud.datastore({
-    projectId: process.env.GOOPROJID,
-    keyFilename: process.env.KEYFILELOCATION
+    projectId: process.env.GOOGLEPROJID,
+    keyFilename: process.env.GOOGLESTORAGEKEY
 });
 
 

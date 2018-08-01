@@ -1,5 +1,5 @@
-﻿const CLIENT_ID = '904380772485-8unv33sc1k4jqlsapp7idrab25kbvngp.apps.googleusercontent.com';
-const CLIENT_SECRET = 'Q3Im63YkToxDseiw4L4Mentx';
+﻿const CLIENT_ID = '5';
+const CLIENT_SECRET = 'C';
 
 
 var Youtube = require('youtube-video-api')
@@ -24,7 +24,7 @@ exports.uploadToYoutube=function(fileInfo, onComplete){
       video: {
           part: 'status,snippet'
       },
-          file:'/home/pi/DoorSensorTrigger/.google-oauth2-credentials.json'
+          file:process.env.YOUTUBETOKEN
 
   })
     youtube.authenticate(CLIENT_ID, CLIENT_SECRET, function (err, tokens) {
