@@ -3,8 +3,8 @@ var config = require('./config');
 var gcloud = require('google-cloud');
 
 var datastore = gcloud.datastore({
-    projectId: config.projectId,
-    keyFilename: config.keyFilename
+    projectId: process.env.GOOPROJID,
+    keyFilename: process.env.KEYFILELOCATION
 });
 
 
