@@ -12,7 +12,7 @@ exports.sendMail = function (subject,body) {
 
     var mailOptions = {
         from: 'Entrance Door <entrancecamera123@gmail.com?',
-        to: 'mig.ruiz@gmail.com,soniacarolina.blanco@gmail.com',
+        to: process.env.TARGETEMAILS,
         subject: subject,
         text: body
     };
