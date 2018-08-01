@@ -1,5 +1,10 @@
-﻿const CLIENT_ID = process.env.YOUTUBECLIENTID;
-const CLIENT_SECRET = process.env.YOUTUBECLIENTSECRET;
+﻿const fs = require('fs');
+let clientSecretsjson = fs.readFileSync(process.env.YOUTUBECLIENTCONFIG);
+let clientSecrets = JSON.parse(clientSecretsjson); 
+
+
+let CLIENT_ID = clientSecrets.installed.client_id;
+let CLIENT_SECRET = clientSecrets.installed.client_secret;
 
 
 var Youtube = require('youtube-video-api')
