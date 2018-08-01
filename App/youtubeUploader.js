@@ -1,5 +1,5 @@
-﻿const CLIENT_ID = '5';
-const CLIENT_SECRET = 'C';
+﻿const CLIENT_ID = process.env.YOUTUBECLIENTID;
+const CLIENT_SECRET = process.env.YOUTUBECLIENTSECRET;
 
 
 var Youtube = require('youtube-video-api')
