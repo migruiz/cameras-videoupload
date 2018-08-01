@@ -15,7 +15,7 @@ COPY App/package.json  /App/package.json
 RUN cd /App \
 && npm  install 
 
-
+RUN mkdir /processingVideos/
 COPY App /App
 
 

@@ -7,6 +7,7 @@ exports.extractVideos = function (ignoreVideosAfterTimestamp, datastore) {
 
     const ffmpegFolderLocation = '/ffmpeg/';
     const cameraVideosFolderLocation = '/videos/';
+    const processingVideosFolderLocation = '/processingVideos/';
     const videoLenght = 30;
     const query = datastore
         .createQuery('DoorOpenEvent')
@@ -48,20 +49,20 @@ exports.extractVideos = function (ignoreVideosAfterTimestamp, datastore) {
         var delta = doorEvent.timestamp - firstVideoStartTime;
         var startPosition = delta - videoLenght / 2;
         var videosTojoinContent = files.map(v => 'file ' + cameraVideosFolderLocation + v.file).join('\r\n');
-        var videosToJoinFilePath = cameraVideosFolderLocation + 'doorvideos/' + doorEvent.timestamp + '.txt';
-        var ffmpegCommandJoin = ffmpegFolderLocation + 'ffmpeg -y -f concat -safe 0 -i ' + videosToJoinFilePath + ' -c copy ' + cameraVideosFolderLocation + 'doorvideos/' + doorEvent.timestamp + '.mp4';
-        var ffmpegCommandExtract = ffmpegFolderLocation + 'ffmpeg -y -ss 00:00:' + ("0" + startPosition).slice(-2) + ' -i ' + cameraVideosFolderLocation + 'doorvideos/' + doorEvent.timestamp + '.mp4  -t 00:00:' + ("0" + videoLenght).slice(-2) + ' -vcodec copy -acodec copy ' + cameraVideosFolderLocation + 'doorvideos/' + doorEvent.timestamp + '_trim.mp4';
+        var videosToJoinFilePath = processingVideosFolderLocation + doorEvent.timestamp + '.txt';
+        var ffmpegCommandJoin = ffmpegFolderLocation + 'ffmpeg -y -f concat -safe 0 -i ' + videosToJoinFilePath + ' -c copy ' + processingVideosFolderLocation + doorEvent.timestamp + '.mp4';
+        var ffmpegCommandExtract = ffmpegFolderLocation + 'ffmpeg -y -ss 00:00:' + ("0" + startPosition).slice(-2) + ' -i ' + processingVideosFolderLocation + doorEvent.timestamp + '.mp4  -t 00:00:' + ("0" + videoLenght).slice(-2) + ' -vcodec copy -acodec copy ' + processingVideosFolderLocation + doorEvent.timestamp + '_trim.mp4';
 
         fs.writeFile(videosToJoinFilePath, videosTojoinContent, function (err) {
             if (err) throw err;
             execP.execSync(ffmpegCommandJoin, { stdio: [0, 1, 2] });
             execP.execSync(ffmpegCommandExtract, { stdio: [0, 1, 2] });
             fs.unlinkSync(videosToJoinFilePath);
-            fs.unlinkSync(cameraVideosFolderLocation + 'doorvideos/' + doorEvent.timestamp + '.mp4');
+            fs.unlinkSync(processingVideosFolderLocation + doorEvent.timestamp + '.mp4');
             var params = {
                 title:moment.utc(doorEvent.timestamp*1000).utcOffset(60).format('YYYY MMMM DD hh:mm a'),
                 description: '',
-                file: cameraVideosFolderLocation + 'doorvideos/' + doorEvent.timestamp + '_trim.mp4'
+                file: processingVideosFolderLocation + doorEvent.timestamp + '_trim.mp4'
             };
             youtubeAPI.uploadToYoutube(params, function (youtubeId) {
                 fs.unlinkSync(params.file);
