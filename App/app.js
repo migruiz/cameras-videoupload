@@ -1,5 +1,4 @@
 'use strict';
-var config = require('./config');
 var gcloud = require('google-cloud');
 
 var datastore = gcloud.datastore({
