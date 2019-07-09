@@ -12,7 +12,7 @@ global.videoSegmentTopic = 'videoSegmentTopic';
 
   async function onVideoSegmentReceived(content) {
 
-        console.log(JSON.stringify(content))
+        console.log(JSON.stringify(content.format.filename))
         return;
 }
 
