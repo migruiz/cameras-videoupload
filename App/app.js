@@ -1,4 +1,6 @@
 'use strict';
+console.log("running");
+return;
 var gcloud = require('google-cloud');
 
 const fs = require('fs');
