@@ -1,5 +1,22 @@
 'use strict';
-console.log("running");
+var mqtt = require('./mqttCluster.js');
+global.mtqqLocalPath = process.env.MQTTLOCAL;
+global.videoSegmentTopic = 'videoSegmentTopic';
+
+(async function(){
+    var mqttCluster=await mqtt.getClusterAsync() 
+    mqttCluster.subscribeData(global.videoSegmentTopic, onVideoSegmentReceived);
+    console.log("running");
+  })();
+
+
+  async function onVideoSegmentReceived(content) {
+
+        console.log(JSON.stringify(content))
+        return;
+}
+
+
 return;
 var gcloud = require('google-cloud');
 
