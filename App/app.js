@@ -1,40 +1,26 @@
+const { interval,Observable } = require('rxjs');
+const { throttleTime,map } = require('rxjs/operators');
+ 
+if (process.env.MQTTLOCAL==null)
+    process.env.MQTTLOCAL='mqtt://localhost:1884'
+
+
 'use strict';
 var mqtt = require('./mqttCluster.js');
 global.mtqqLocalPath = process.env.MQTTLOCAL;
 global.videoSegmentTopic = 'videoSegmentTopic';
 
-(async function(){
-    var mqttCluster=await mqtt.getClusterAsync() 
-    mqttCluster.subscribeData(global.videoSegmentTopic, onVideoSegmentReceived);
-    console.log("running");
-  })();
-
-
-  async function onVideoSegmentReceived(content) {
-
-        console.log(JSON.stringify(content.format.filename))
-        return;
-}
-
-
-return;
-var gcloud = require('google-cloud');
-
-const fs = require('fs');
-let dataStoreSecretsJson = fs.readFileSync(process.env.GOOGLESTORAGEKEY);
-let dataStoreSecrets = JSON.parse(dataStoreSecretsJson); 
-
-var datastore = gcloud.datastore({
-    projectId: dataStoreSecrets.project_id,
-    keyFilename: process.env.GOOGLESTORAGEKEY
+const videoFileStream = new Observable(async subscriber => {      
+    var mqttCluster=await mqtt.getClusterAsync()   
+    mqttCluster.subscribeData(global.videoSegmentTopic, function(content){
+        subscriber.next(content)
+    });
 });
+const filteredStream = videoFileStream.pipe(map(val => val.format.filename))
+filteredStream.subscribe(val => console.log(JSON.stringify(val)));   
+console.log("running");
 
 
-var videoFilesMonitor = require('./videoFilesMonitor.js');
-videoFilesMonitor.startMonitoring(datastore);
 
-var currentReadings = require('./currentReadings.js').getInstance();
-var doorOpenEventReceiver = require('./doorOpenEventReceiver.js');
-doorOpenEventReceiver.monitor("amqp://mslgcpgp:n5Ya32JaLtoYt7Qu0uemu7SFNPpGw8T5@puma.rmq.cloudamqp.com/mslgcpgp", function (newReading, onSuceeded) {
-    currentReadings.reportSensorReading(datastore, newReading, onSuceeded);
-});
+
+
