@@ -45,7 +45,7 @@ const videoStream = videoFileStream.pipe(
             current:curr,  
         }
     ), {}),
-    filter( v => v.previous!=null),
+    filter( v => v.previous),
     map ( v => ({
         startTime:v.previous.startTime,
         endTime:v.current.endTime,
@@ -63,7 +63,6 @@ const throttledReadingsStreams = sensorsReadingStream.pipe(
 
 videoStream.subscribe(val => {
     console.log(JSON.stringify(val));
-    console.log(Math.round((new Date).getTime()/1000));
 });   
 throttledReadingsStreams.subscribe(reading => console.log(JSON.stringify(reading)));   
 console.log("running");
